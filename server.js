@@ -1,17 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./db.js";
+import connectDB from "./config/db.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT;
 
-connectDB(); // ✅ connect MongoDB
+app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+// DB
+connectDB();
+
+// Routes
+app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Express + MongoDB working");
+  res.send("Express + MongoDB CRUD working");
 });
 
 app.listen(PORT, () => {
